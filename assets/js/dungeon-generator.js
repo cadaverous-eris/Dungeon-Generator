@@ -138,7 +138,7 @@ function carveCorridor(startRoom, endRoom) {
 				//if (start.manhattanDistanceTo(tempCell = new Cell(x, y)) < start.manhattanDistanceTo(end)) end = tempCell;
 			} else {
 				// set the weight of empty space to 1, and filled space to 10
-				graph[y][x] = ((grid[(y * 2) + 1][(x * 2) + 1] === 0) ? 1 : (grid[(y * 2) + 1][(x * 2) + 1] === 666) ? 100000 : 100);
+				graph[y][x] = ((grid[(y * 2) + 1][(x * 2) + 1] === 0) ? 1 : (grid[(y * 2) + 1][(x * 2) + 1] === 666) ? 10 : 100);
 			}
 		}
 	}

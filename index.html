@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>Depth Crawler</title>
+		<meta charset='utf-8'>
+		<meta name="viewport" content='width=device-width, initial-scale=.8, shrink-to-fit=no'>
+		
+		<!-- jQuery -->
+		<script src='https://code.jquery.com/jquery.js'></script>
+		
+		<!-- Bootstrap -->
+		<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css' integrity='sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb' crossorigin='anonymous'>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js' integrity='sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh' crossorigin='anonymous'></script>
+		<script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js' integrity='sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ' crossorigin='anonymous'></script>
+		
+		<!-- Stylesheet -->
+		<link rel='stylesheet' href='assets/css/style.css'>
+		
+		<!-- WebGL Utilities -->
+		<script src='assets/js/math/gl-matrix.js'></script>
+		<!-- Delaunay Triangulation -->
+		<script type='text/javascript' src='assets/js/math/delaunay.js'></script>
+		<!-- Seeded Random -->
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.3/seedrandom.min.js'></script>
+		
+		<!-- Generator Code -->
+		<script src="assets/js/dungeon-generator.js"></script>
+	</head>
+	<body>
+		<div class='container' id='main-container'>
+			<h2 style='text-align: center;'>Dungeon Generator [WIP]</h2><hr>
+			<div class='row'>
+				<div class='col-md-8' id='canvas-col' style=''>
+					<canvas id='view' style='padding: 0px; margin: 0px; display: block;'></canvas>
+				</div>
+				<div class='col-md-4' id='control-col'>
+					<div class='form-group'>
+						<label for='seed'>Seed</label>
+						<input class='form-control' type='text' maxlength=20 id='seed'>
+					</div>
+					<div class='form-group'>
+						<label for='min-room-size'>Minimum Room Size (<span class='value'></span>)</label>
+						<input class='form-control' type='range' min=3 max=21 step=2 id='min-room-size'><br>
+						<label for='max-room-size'>Maximum Room Size (<span class='value'></span>)</label>
+						<input class='form-control' type='range' min=3 max=21 step=2 id='max-room-size'><br>
+						<label for='room-placement-attempts'>Room Placement Attempts (<span class='value'></span>)</label>
+						<input class='form-control' type='range' min=64 max=1024 id='room-placement-attempts'><br>
+					</div>
+					<div class='form-group'>
+						<label for='extra-room-connections'>Extra Room Connections (<span class='value'></span>)</label>
+						<input class='form-control' type='range' min=0 max=1 step=0.005 id='extra-room-connections'><br>
+					</div>
+					<div class='form-group'>
+						<button class='btn btn-primary' id='generate' style='width: 100%;'>Generate Dungeon</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type='text/javascript'>
+			var minRoomSizeInput = $('#min-room-size');
+			var maxRoomSizeInput = $('#max-room-size');
+			var roomPlacementAttemptsInput = $('#room-placement-attempts');
+			var extraRoomConnectionsInput = $('#extra-room-connections');
+			
+			minRoomSizeInput.on('input', event => {
+				$('label[for=min-room-size] > .value').text(minRoomSizeInput.val());
+				if (parseInt(maxRoomSizeInput.val()) < parseInt(minRoomSizeInput.val())) {
+					maxRoomSizeInput.val(minRoomSizeInput.val());
+					$('label[for=max-room-size] > .value').text(maxRoomSizeInput.val());
+				}
+			});
+			
+			maxRoomSizeInput.on('input', event => {
+				$('label[for=max-room-size] > .value').text(maxRoomSizeInput.val());
+				if (parseInt(minRoomSizeInput.val()) > parseInt(maxRoomSizeInput.val())) {
+					minRoomSizeInput.val(maxRoomSizeInput.val());
+					$('label[for=min-room-size] > .value').text(minRoomSizeInput.val());
+				}
+			});
+			
+			roomPlacementAttemptsInput.on('input', event => {
+				$('label[for=room-placement-attempts] > .value').text(roomPlacementAttemptsInput.val());
+			});
+			
+			extraRoomConnectionsInput.on('input', event => {
+				$('label[for=extra-room-connections] > .value').text(extraRoomConnectionsInput.val());
+			});
+		</script>
+	</body>
+</html>

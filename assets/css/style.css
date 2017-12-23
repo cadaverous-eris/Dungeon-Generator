@@ -1,0 +1,38 @@
+input, button, textarea {
+	outline: none;
+	box-shadow:none !important;
+	border:1px solid #ccc !important;
+}
+
+input[type=range] {
+	-webkit-appearance: none;
+	appearance: none;
+    border-radius: 5px;
+	border: none !important;
+	padding: 0px 1px;
+    background: #e9ecef !important;
+	height:10px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+	width: 15px;
+    height: 15px;
+	border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+	border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb:hover {
+    background: #0069d9;
+}
+input[type=range]::-moz-range-thumb:hover {
+	background: #0069d9;
+}

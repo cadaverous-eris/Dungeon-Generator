@@ -105,8 +105,8 @@ function generate() {
 	rooms = randomRooms(roomPlacementAttempts, minRoomDim, maxRoomDim);
 	console.log("Rooms: " + rooms.length);
 	
-	var delaunayList = graphConnections(rooms);
-	connectionList = processConnections(delaunayList, rooms);
+	var fullConnectionList = graphConnections(rooms);
+	connectionList = processConnections(fullConnectionList, rooms);
 	//console.log("Connections: " + connectionList.length());
 	
 	connectionList.forEach((a, b) => {carveCorridor(rooms[a], rooms[b]);});
@@ -118,7 +118,7 @@ function generate() {
 	}
 	
 	drawGrid();
-	//drawConnections(connectionList, rooms);
+	drawConnections(fullConnectionList, rooms);
 }
 
 function carveCorridor(startRoom, endRoom) {
@@ -224,20 +224,22 @@ PriorityQueue.prototype.isEmpty = function() {
 
 function graphConnections(rooms) {
 	var list = new EdgeList(rooms.length);
-	for (var i = 0; i < rooms.length; i++) {
-		list[i] = new Set();
-	}
-	
+	var tempList = new EdgeList(rooms.length);
 	var points = [];
 	for (var i = 0; i < rooms.length; i++) {
 		points.push(rooms[i].centerPoint());
 	}
+	// get a list of all the triangles in the Delaunay triangulation of the rooms' centers
 	var triArray = triangulate(points);
+	// convert the list of triangles into a list of edges, including only edges shared by more than one triangle
 	for (var i = triArray.length - 3; i >= 0; i -= 3) {
 		let a = triArray[i], b = triArray[i + 1], c = triArray[i + 2];
-		list.connect(a, b);
-		list.connect(b, c);
-		list.connect(a, c);
+		if (tempList.connected(a, b)) list.connect(a, b);
+		if (tempList.connected(b, c)) list.connect(b, c);
+		if (tempList.connected(a, c)) list.connect(a, c);
+		tempList.connect(a, b);
+		tempList.connect(b, c);
+		tempList.connect(a, c);
 	}
 	return list;
 }

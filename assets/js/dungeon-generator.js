@@ -37,6 +37,8 @@ var extraConnectionVal = 0.125;
 
 var rooms, connectionList;
 
+var drawLines = false;
+
 function init() {
 	canvas = document.getElementById('view');
 	ctx = canvas.getContext('2d');
@@ -49,8 +51,7 @@ function init() {
 	setSize();
 	$(window).on('resize', () => {
 		setSize();
-		drawGrid();
-		//drawConnections(connectionList, rooms);
+		draw();
 	});
 	
 	$('#seed').val(seed);
@@ -85,6 +86,13 @@ function init() {
 		generate();
 	});
 	
+	$(document).on('keypress', event => {
+		if (event.key === 'l') {
+			drawLines = !drawLines;
+			draw();
+		}
+	});
+	
 	// generate a dungeon
 	generate();
 }
@@ -117,8 +125,12 @@ function generate() {
 		}
 	}
 	
+	draw();
+}
+
+function draw() {
 	drawGrid();
-	drawConnections(fullConnectionList, rooms);
+	if (drawLines === true) drawConnections(connectionList, rooms);
 }
 
 function carveCorridor(startRoom, endRoom) {

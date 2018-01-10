@@ -13,7 +13,11 @@ var gridHeight = 63;
 var cellSize;
 
 function setSize() {
-	$('#canvas-col').height(Math.floor($(window).height() - $('#canvas-col').offset().top) - 20);
+	let navbarHeight = $('.navbar').outerHeight();
+	$('body > .container').css('padding-top', (navbarHeight + 20) + 'px');
+	
+	let verticalSpace = Math.floor($(window).height() - $('#canvas-col').offset().top) - Math.max($(window).height() - $('footer').offset().top + 20, 20);
+	$('#canvas-col').height(verticalSpace);
 	
 	let canvasWidth = Math.min(Math.floor($('#canvas-col').width() / gridWidth) * gridWidth, Math.floor($('#canvas-col').height() / gridHeight) * gridWidth);
 	let canvasHeight = Math.min(Math.round(canvasWidth * (gridHeight / gridWidth)), Math.floor($('#canvas-col').height() / gridHeight) * gridHeight);
@@ -33,11 +37,9 @@ var minRoomDim = 5;
 var maxRoomDim = 13;
 var roomPlacementAttempts = 256;
 var extraConnectionVal = 0.125;
-
+var drawLines = false;
 
 var rooms, connectionList;
-
-var drawLines = false;
 
 function init() {
 	canvas = document.getElementById('view');
@@ -63,6 +65,7 @@ function init() {
 	$('label[for=room-placement-attempts] > .value').text(roomPlacementAttempts);
 	$('#extra-room-connections').val(extraConnectionVal);
 	$('label[for=extra-room-connections] > .value').text(extraConnectionVal);
+	$('#show-graph').prop('checked', drawLines);
 	
 	$('#seed').on('input', event => {
 		seed = $('#seed').val();
@@ -86,9 +89,14 @@ function init() {
 		generate();
 	});
 	
+	$('#show-graph').on('click', event => {
+		drawLines = $('#show-graph').prop('checked');
+		draw();
+	});
 	$(document).on('keypress', event => {
 		if (event.key === 'l') {
 			drawLines = !drawLines;
+			$('#show-graph').prop('checked', drawLines);
 			draw();
 		}
 	});
@@ -111,7 +119,7 @@ function generate() {
 	
 	// randomly place rooms on the grid
 	rooms = randomRooms(roomPlacementAttempts, minRoomDim, maxRoomDim);
-	console.log("Rooms: " + rooms.length);
+	//console.log("Rooms: " + rooms.length);
 	
 	var fullConnectionList = graphConnections(rooms);
 	connectionList = processConnections(fullConnectionList, rooms);
@@ -474,8 +482,8 @@ function randomRooms(attempts, minWidth, maxWidth) {
 	var rooms = [];
 	
 	for (var i = 0; i < attempts; i++) {
-		var width = ((minWidth % 2 === 1) ? minWidth - 1 : minWidth) + randomOdd(maxWidth - minWidth);
-		var height = ((minWidth % 2 === 1) ? minWidth - 1 : minWidth) + randomOdd(maxWidth - minWidth);
+		var width = ((minWidth % 2 === 1) ? minWidth - 1 : minWidth) + randomOdd((maxWidth - minWidth) + 1);
+		var height = ((minWidth % 2 === 1) ? minWidth - 1 : minWidth) + randomOdd((maxWidth - minWidth) + 1);
 		var x = randomOdd(gridWidth);
 		var y = randomOdd(gridHeight);
 		

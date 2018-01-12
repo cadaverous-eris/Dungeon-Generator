@@ -11,6 +11,17 @@ body {
 	box-sizing: border-box;
 }
 
+.nav-link > img {
+	height: 22px;
+	width: auto;
+	margin: 1px;
+}
+.nav-link:hover > img {
+	height: 24px;
+	width: auto;
+	margin: 0px;
+}
+
 body > .container {
   padding: 80px 15px 0;
 }

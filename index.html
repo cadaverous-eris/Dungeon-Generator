@@ -4,6 +4,7 @@
 		<title>Dungeon Generator</title>
 		<meta charset='utf-8'>
 		<meta name="viewport" content='width=device-width, initial-scale=.8, shrink-to-fit=no'>
+		<meta name="description" content='A simple dungeon generator written in javascript. Source code is available on Github.'>
 		
 		<!-- jQuery -->
 		<script src='https://code.jquery.com/jquery.js'></script>
@@ -33,7 +34,7 @@
 						<li class='nav-item'>
 							<a class=nav-link href='https://github.com/the-realest-stu/Dungeon-Generator'>
 								View on Github
-								<img src='assets/images/GitHub-Mark/PNG/GitHub-Mark-Light-64px.png' class='d-inline-block align-top' width='24px' height='24px'>
+								<img src='assets/images/GitHub-Mark/PNG/GitHub-Mark-Light-64px.png' class='d-inline-block align-top'>
 							</a>
 						</li>
 					</ul>
@@ -42,31 +43,37 @@
 		</header>
 		<main role='main' class='container' id='main-container'>
 			<div class='row'>
-				<div class='col-md-8' id='canvas-col' style=''>
+				<div class='col-md-8' id='canvas-col'>
 					<canvas id='view' style='padding: 0px; margin: 0px; display: block;'></canvas>
 				</div>
 				<div class='col-md-4' id='control-col'>
-					<div class='form-group'>
+					<div class='form-group' title='The seed for the random number generator. Using the same seed with the same generation settings will always create the same dungeon. Leave blank for a random seed.'>
 						<label for='seed'>Seed</label>
 						<input class='form-control' type='text' maxlength=20 placeholder='Random' id='seed'>
 					</div>
 					<div class='form-group'>
-						<label for='min-room-size'>Minimum Room Size (<span class='value'></span>)</label>
-						<input class='form-control' type='range' min=3 max=21 step=2 id='min-room-size'><br>
-						<label for='max-room-size'>Maximum Room Size (<span class='value'></span>)</label>
-						<input class='form-control' type='range' min=3 max=21 step=2 id='max-room-size'><br>
-						<label for='room-placement-attempts'>Room Placement Attempts (<span class='value'></span>)</label>
-						<input class='form-control' type='range' min=64 max=1024 id='room-placement-attempts'><br>
+						<div title='Room width and height will not be below this value.'>
+							<label for='min-room-size'>Minimum Room Size (<span class='value'></span>)</label>
+							<input class='form-control' type='range' min=3 max=21 step=2 id='min-room-size'><br>
+						</div>
+						<div title='Room width and height will not exceed this value.'>
+							<label for='max-room-size'>Maximum Room Size (<span class='value'></span>)</label>
+							<input class='form-control' type='range' min=3 max=21 step=2 id='max-room-size'><br>
+						</div>
+						<div title='Number of times the generator will attempt to place a room. Rooms cannot overlap.'>
+							<label for='room-placement-attempts'>Room Placement Attempts (<span class='value'></span>)</label>
+							<input class='form-control' type='range' min=64 max=1024 id='room-placement-attempts'><br>
+						</div>
 					</div>
-					<div class='form-group'>
+					<div class='form-group' title='The number of extra hallways between rooms.'>
 						<label for='extra-room-connections'>Extra Room Connections (<span class='value'></span>)</label>
 						<input class='form-control' type='range' min=0 max=1 step=0.005 id='extra-room-connections'><br>
 					</div>
 					<div class='form-group'>
 						<button class='btn btn-primary' id='generate' style='width: 100%;'>Generate Dungeon</button>
 					</div>
-					<div class='form-check custom-control custom-checkbox'>
-						<input class='form-check-input' type='checkbox' value='' id='show-graph'>
+					<div class='form-check custom-control custom-checkbox' title='Show the graph structure used to determine which rooms are connected by hallways.'>
+						<input class='form-check-input' type='checkbox' id='show-graph'>
 						<label class='custom-control-label' for='show-graph'>Show Connection Graph</label>
 					</div>
 				</div>

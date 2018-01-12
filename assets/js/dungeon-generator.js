@@ -45,8 +45,8 @@ function init() {
 	canvas = document.getElementById('view');
 	ctx = canvas.getContext('2d');
 	if (!canvas || !ctx) {
-        alert("Unable to initialize 2d drawing context. Your browser or machine may not support it.");
-        return;
+		alert("Unable to initialize 2d drawing context. Your browser or machine may not support it.");
+		return;
 	}
 	
 	// set the canvas element's size
@@ -115,7 +115,8 @@ function generate() {
 	}
 	
 	// set Math.random to use the predefined seed, or a random one
-	Math.seedrandom((seed && (seed + '').length > 0) ? seed : null);
+	let dungeonSeed = (seed && (seed + '').length > 0) ? seed : (Date.now() + '');
+	Math.seedrandom(dungeonSeed);
 	
 	// randomly place rooms on the grid
 	rooms = randomRooms(roomPlacementAttempts, minRoomDim, maxRoomDim);
@@ -134,6 +135,8 @@ function generate() {
 	}
 	
 	draw();
+	
+	$('#view').attr('title', 'Rooms: ' + rooms.length + '\n' + 'Connections: ' + connectionList.length() + '\n' + 'Seed: ' + dungeonSeed);
 }
 
 function draw() {
